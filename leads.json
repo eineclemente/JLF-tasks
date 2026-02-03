@@ -1,0 +1,42 @@
+[
+    {
+        "client_name": "null",
+        "company_name": "FinTech",
+        "sentiment_score": 10,
+        "budget_range": "$2k",
+        "summary": "Client needs a landing page ASAP with a tight budget of $2k and wants to start Monday.",
+        "Is_Urgent": true
+    },
+    {
+        "client_name": "null",
+        "company_name": "null",
+        "sentiment_score": 1,
+        "budget_range": "null",
+        "summary": "The sender wants to be removed from the email list and claims they never signed up.",
+        "Is_Urgent": false
+    },
+    {
+        "client_name": "null",
+        "company_name": "ScreensCorp",
+        "sentiment_score": 10,
+        "budget_range": "$20k+",
+        "summary": "Client is looking for a full redesign of their SaaS platform and are budget flexible.",
+        "Is_Urgent": false
+    },
+    {
+        "client_name": "null",
+        "company_name": "null",
+        "sentiment_score": 1,
+        "budget_range": "$500",
+        "summary": "The client wants an app developed similar to Uber, but for dogs, with a budget of $500.",
+        "Is_Urgent": false
+    },
+    {
+        "client_name": "null",
+        "company_name": "null",
+        "sentiment_score": 1,
+        "budget_range": "$15k monthly retainer",
+        "summary": "Client needs a React Native team to take over a half-finished app immediately.",
+        "Is_Urgent": true
+    }
+]

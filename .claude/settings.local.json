@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m flask run:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python -c \"from dotenv import load_dotenv; load_dotenv\\(\\); import os; os.system\\(''python -m streamlit run lead_parser.py''\\)\")"
+    ]
+  }
+}
