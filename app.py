@@ -49,12 +49,17 @@ def ask_ai(messages: list, model: str = "openai/gpt-3.5-turbo") -> str:
 
 # --- Streamlit UI ---
 
-# Modern UI Styling
+# Modern UI Styling - Green & White Theme
 st.markdown("""
 <style>
-    /* ===== SIDEBAR - Glassmorphism ===== */
+    /* ===== GLOBAL - Light Background ===== */
+    .stApp {
+        background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+    }
+
+    /* ===== SIDEBAR - Green Glassmorphism ===== */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, rgba(45, 45, 60, 0.95) 0%, rgba(35, 35, 50, 0.98) 100%);
+        background: linear-gradient(180deg, rgba(20, 83, 45, 0.97) 0%, rgba(22, 101, 52, 0.98) 100%);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-right: 1px solid rgba(255,255,255,0.1);
@@ -67,14 +72,14 @@ st.markdown("""
         letter-spacing: 1.5px;
         text-transform: uppercase;
         font-size: 0.75rem;
-        color: rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.6);
         margin-top: 1.5rem;
         margin-bottom: 1rem;
     }
 
     /* ===== SIDEBAR BUTTONS ===== */
     [data-testid="stSidebar"] .stButton > button {
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
         color: white;
         border: none;
         border-radius: 14px;
@@ -82,18 +87,18 @@ st.markdown("""
         font-weight: 600;
         font-size: 0.9rem;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+        box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35);
     }
 
     [data-testid="stSidebar"] .stButton > button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        box-shadow: 0 8px 30px rgba(34, 197, 94, 0.5);
     }
 
     /* History item buttons */
     [data-testid="stSidebar"] [data-testid="column"] .stButton > button {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
         box-shadow: none;
         font-weight: 400;
         font-size: 0.85rem;
@@ -102,52 +107,62 @@ st.markdown("""
     }
 
     [data-testid="stSidebar"] [data-testid="column"] .stButton > button:hover {
-        background: rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.15);
         transform: none;
         box-shadow: none;
     }
 
     /* Delete button styling */
     [data-testid="stSidebar"] [data-testid="column"]:last-child .stButton > button {
-        background: rgba(239, 68, 68, 0.15);
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        color: #f87171;
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: #fca5a5;
     }
 
     [data-testid="stSidebar"] [data-testid="column"]:last-child .stButton > button:hover {
-        background: rgba(239, 68, 68, 0.25);
+        background: rgba(239, 68, 68, 0.3);
     }
 
     /* ===== CHAT MESSAGES ===== */
     [data-testid="stChatMessage"] {
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.06);
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(34, 197, 94, 0.1);
         border-radius: 20px;
         padding: 1.25rem;
         margin: 0.75rem 0;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    [data-testid="stChatMessage"] p {
+        color: #1f2937 !important;
     }
 
     /* ===== CHAT INPUT - Floating Pill ===== */
     [data-testid="stChatInput"] {
         border-radius: 28px !important;
-        border: 1px solid rgba(255,255,255,0.12) !important;
-        background: rgba(255,255,255,0.06) !important;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+        border: 2px solid rgba(34, 197, 94, 0.2) !important;
+        background: rgba(255,255,255,0.95) !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(34, 197, 94, 0.05) inset;
         padding: 4px !important;
     }
 
     [data-testid="stChatInput"]:focus-within {
-        border-color: rgba(99, 102, 241, 0.5) !important;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(99, 102, 241, 0.2);
+        border-color: rgba(34, 197, 94, 0.5) !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 0 0 3px rgba(34, 197, 94, 0.15);
     }
 
     [data-testid="stChatInput"] textarea {
         background: transparent !important;
         padding: 12px 20px !important;
+        color: #1f2937 !important;
+    }
+
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: #9ca3af !important;
     }
 
     [data-testid="stChatInput"] button {
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
         border-radius: 50% !important;
         width: 40px !important;
         height: 40px !important;
@@ -157,13 +172,13 @@ st.markdown("""
 
     [data-testid="stChatInput"] button:hover {
         transform: scale(1.1) !important;
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.5) !important;
+        box-shadow: 0 4px 20px rgba(34, 197, 94, 0.5) !important;
     }
 
     /* ===== SELECTBOX ===== */
     .stSelectbox > div > div {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
         border-radius: 14px;
         padding: 2px;
     }
@@ -174,8 +189,8 @@ st.markdown("""
 
     /* ===== CHECKBOX ===== */
     .stCheckbox {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
         border-radius: 12px;
         padding: 0.75rem 1rem;
         margin: 0.5rem 0;
@@ -183,8 +198,8 @@ st.markdown("""
 
     /* ===== CONTAINERS ===== */
     [data-testid="stContainer"] {
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.06);
+        background: rgba(255,255,255,0.7);
+        border: 1px solid rgba(34, 197, 94, 0.1);
         border-radius: 20px;
         padding: 1.25rem;
     }
@@ -193,7 +208,7 @@ st.markdown("""
     hr {
         border: none;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         margin: 1.75rem 0;
     }
 
@@ -207,7 +222,7 @@ st.markdown("""
     h1 {
         font-weight: 800;
         font-size: 2.5rem;
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 40%, #ec4899 100%);
+        background: linear-gradient(135deg, #16a34a 0%, #22c55e 40%, #4ade80 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -217,8 +232,8 @@ st.markdown("""
 
     /* ===== SUGGESTION CARDS ===== */
     .suggestion-card {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(34, 197, 94, 0.15);
         border-radius: 16px;
         padding: 1.25rem;
         cursor: pointer;
@@ -227,55 +242,56 @@ st.markdown("""
     }
 
     .suggestion-card:hover {
-        background: rgba(255,255,255,0.06);
-        border-color: rgba(99, 102, 241, 0.3);
+        background: rgba(255,255,255,0.95);
+        border-color: rgba(34, 197, 94, 0.4);
         transform: translateY(-2px);
     }
 
     .suggestion-card h4 {
-        color: rgba(255,255,255,0.9);
+        color: #1f2937;
         font-size: 0.95rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
     }
 
     .suggestion-card p {
-        color: rgba(255,255,255,0.5);
+        color: #6b7280;
         font-size: 0.8rem;
         margin: 0;
     }
 
     /* ===== CAPTIONS ===== */
     .stCaption {
-        color: rgba(255,255,255,0.4) !important;
+        color: rgba(255,255,255,0.5) !important;
     }
 
     /* ===== SUGGESTION BUTTONS ===== */
     .block-container > div > div > div > .stButton > button {
-        background: rgba(255,255,255,0.03) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
+        background: rgba(255,255,255,0.85) !important;
+        border: 1px solid rgba(34, 197, 94, 0.15) !important;
         border-radius: 16px !important;
         padding: 1.5rem 1.25rem !important;
         text-align: left !important;
-        box-shadow: none !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
         transition: all 0.3s ease !important;
         min-height: 90px !important;
     }
 
     .block-container > div > div > div > .stButton > button:hover {
-        background: rgba(255,255,255,0.06) !important;
-        border-color: rgba(99, 102, 241, 0.3) !important;
+        background: rgba(255,255,255,0.98) !important;
+        border-color: rgba(34, 197, 94, 0.4) !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.12) !important;
     }
 
     .block-container > div > div > div > .stButton > button p {
         margin: 0 !important;
         line-height: 1.5 !important;
+        color: #6b7280 !important;
     }
 
     .block-container > div > div > div > .stButton > button strong {
-        color: rgba(255,255,255,0.9) !important;
+        color: #1f2937 !important;
         font-size: 0.95rem !important;
     }
 
@@ -291,8 +307,8 @@ st.markdown("""
 
     /* ===== ACTION BUTTON STYLING ===== */
     div[data-testid="stPopover"] > button {
-        background: rgba(255,255,255,0.04) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
+        background: rgba(255,255,255,0.9) !important;
+        border: 1px solid rgba(34, 197, 94, 0.2) !important;
         border-radius: 12px !important;
         width: auto !important;
         height: 38px !important;
@@ -303,42 +319,42 @@ st.markdown("""
         justify-content: center !important;
         gap: 6px !important;
         font-size: 1rem !important;
-        box-shadow: none !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
         transition: all 0.2s ease !important;
-        color: rgba(255,255,255,0.6) !important;
+        color: #374151 !important;
     }
 
     div[data-testid="stPopover"] > button:hover {
-        background: rgba(99, 102, 241, 0.12) !important;
-        border-color: rgba(99, 102, 241, 0.25) !important;
-        color: rgba(255,255,255,0.9) !important;
+        background: rgba(34, 197, 94, 0.1) !important;
+        border-color: rgba(34, 197, 94, 0.4) !important;
+        color: #16a34a !important;
     }
 
     /* ===== MIC BUTTON ===== */
     .mic-btn button {
-        background: rgba(255,255,255,0.04) !important;
-        border: 1px solid rgba(255,255,255,0.08) !important;
+        background: rgba(255,255,255,0.9) !important;
+        border: 1px solid rgba(34, 197, 94, 0.2) !important;
         border-radius: 12px !important;
         height: 38px !important;
         min-width: 38px !important;
         padding: 0 12px !important;
-        color: rgba(255,255,255,0.6) !important;
-        box-shadow: none !important;
+        color: #374151 !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
         transition: all 0.2s ease !important;
         font-size: 1rem !important;
     }
 
     .mic-btn button:hover {
-        background: rgba(99, 102, 241, 0.12) !important;
-        border-color: rgba(99, 102, 241, 0.25) !important;
-        color: rgba(255,255,255,0.9) !important;
+        background: rgba(34, 197, 94, 0.1) !important;
+        border-color: rgba(34, 197, 94, 0.4) !important;
+        color: #16a34a !important;
     }
 
     /* Recording state */
     .mic-btn button[kind="secondary"] {
-        background: rgba(239, 68, 68, 0.15) !important;
+        background: rgba(239, 68, 68, 0.1) !important;
         border-color: rgba(239, 68, 68, 0.4) !important;
-        color: #f87171 !important;
+        color: #dc2626 !important;
         animation: pulse-rec 1.2s ease-in-out infinite;
     }
 
@@ -360,19 +376,19 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(99, 102, 241, 0.12);
-        border: 1px solid rgba(99, 102, 241, 0.25);
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.25);
         border-radius: 20px;
         padding: 6px 14px;
         font-size: 0.85rem;
-        color: rgba(255,255,255,0.85);
+        color: #16a34a;
     }
 
     /* ===== CLEAR FILE BUTTON ===== */
     .clear-file-btn button {
         background: transparent !important;
         border: none !important;
-        color: rgba(255,255,255,0.5) !important;
+        color: #6b7280 !important;
         padding: 2px 6px !important;
         font-size: 0.9rem !important;
         min-height: 0 !important;
@@ -381,8 +397,13 @@ st.markdown("""
     }
 
     .clear-file-btn button:hover {
-        color: rgba(255,255,255,0.9) !important;
+        color: #1f2937 !important;
         background: transparent !important;
+    }
+
+    /* ===== WELCOME TEXT ===== */
+    .welcome-text {
+        color: #6b7280 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -471,7 +492,7 @@ with st.sidebar:
 if not st.session_state.messages:
     st.markdown("""
     <div style="text-align: center; padding: 2rem 0 3rem 0;">
-        <p style="color: rgba(255,255,255,0.5); font-size: 1.1rem; font-weight: 400;">
+        <p style="color: #6b7280; font-size: 1.1rem; font-weight: 400;">
             How may I help you today?
         </p>
     </div>
